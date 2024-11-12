@@ -1,0 +1,92 @@
+## How to handle asynchronous operations using async/await over callback/promise TypeScript.
+
+Before going to deep into dive you need to understand `Promise`. How Promise works please follow below syntax: 
+### Promise
+ ```
+ 	const fetchData = () : Promise<string> => {
+ 		return new Promise((resolve, reject) =>{
+ 			setTimeout(() => {
+ 			resolve("Data fetching");
+ 			}, 3000);
+ 		});
+ 	}; 
+ ```
+ Promise represents a value that maybe available in the future (or never). Promises make asynchronous code more readable.
+ 
+### Callbacks
+You need to pass a function that will be called once the operation completes. This is the most common way functions handeled in older JS. please follow callbacks syntax:
+
+```
+	function fetchData(callback: (data: string) => void){
+		setTimeout(() =>{
+			callback("Data fetching");
+		}, 3000);
+	}
+```
+### Using Callback
+```
+	fetchData((data) => {
+		console.log(data); //Data fetching
+	})
+```   
+when you nesting multiple callbacks then it becomes difficult to read and maintain code quality.
+
+### async/await
+The `async` is used to declare an asynchronous function, which returns a promise.
+The `await` is used to pause the execution of the function until the promise is resolved or rejected.
+
+How `async/await` works please follow below syntax:
+
+```
+	async function loadData() {
+		try{
+			const data = await fetchData()
+			console.log(data) // output: "Data fetching"
+		} catch(error){
+			console.log('data is not fetching', error)
+		}
+	}
+	
+	//function called to Load All Data
+	loadData()
+``` 
+So using this 'async/await' way to maintain and read code quality is better from other options. And also error handling easy to debug code.
+
+### Let's see differences which way is better and why?
+
+**Advantages**
+ - Advantages of Callbacks/Promise:
+ 	- Simple and easy for small async operations
+ 	- Low overhead, no additional abstractions
+ 	
+ - Advantages of Promise:
+ 	- Avoids callback hell and makes async code more readable with `.then()` chains.
+ 	- Centralized error handling using `.catch()` chaining
+ 	
+  - Advantages of async/await:
+  	- Simplifies asynchronous code and makes it look synchronous, improving readability.
+  	- Easy error handling using `try/catch` block.
+  	- Maintable and debuggable than callbacks and promises
+
+**DisAdvantages**
+ - DisAdvantages of Callbacks:
+   	- Callback hell: LEads to deeply nested and unreadable code,
+   	- Error handling can be inconsistent and Difficult to manage complex async flows
+
+ - DisAdvantages of Promise:
+ 	- Requires chaining, which can become messy with many nested promises.
+ 	- Error propagation across chains can sometimes be tricky to manage.
+ 	
+ - DisAdvantages of async/await:
+  	- Can block execution if used incorrectly
+  	- Require modern javascript environment
+ 
+ 
+ 
+ **Best Approach for use(in short):**
+
+- **Callbacks**: When you don't need to complex chaining or error handling and for single async operations you can use it.
+- **Promise**: When you need to chain multiple async operations or handle complex async workflows, but without the deep nesting of callbacks.
+- **Async/Await**: When you need to run multiple async operations and Ensure maintability, readability, Error handling.
+ 
+**For modern JavaScript and TypeScript 'async/await' is the recommanded way to handle asynchronous code.**

@@ -3,11 +3,16 @@ function countWordOccurrences(sentence:string, word:string):number {
     const caseSen = sentence.toLowerCase();
     const caseWord = word.toLowerCase()
 
-    const regex = new RegExp(`\\b${caseWord}\\b`, 'g');
-    const matches = caseSen.match(regex)
+    const words = caseSen.split(' ')
 
-    return matches ? matches.length : 0
+    let wordCount = 0;
+    for(const w of words){
+        if(w === caseWord){
+            wordCount++;
+        }
+    }
+    return wordCount;
 }
 
-const words = countWordOccurrences("TypeScript is great. I love TypeScript!", "typescript");
-console.log(words)
+const fullSentence = countWordOccurrences("I love typescript", "typescript");
+console.log(fullSentence)
